@@ -26,7 +26,7 @@ final class KeyboardViewController: UIInputViewController {
                 }
             },
             nextKeyboard: { [weak self] (view: UIView, event: UIEvent?) in
-                self?.handleInputModeList(from: view, with: event)
+                self?.handleInputModeList(from: view, with: event ?? UIEvent())
             }
         )
 
