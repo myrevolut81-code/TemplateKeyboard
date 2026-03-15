@@ -41,23 +41,6 @@ final class KeyboardViewController: UIInputViewController {
 
     }
 
-    override func updateViewConstraints() {
-        super.updateViewConstraints()
-        if !view.constraints.contains(where: { $0.firstAttribute == .height && $0.constant == 320 }) {
-            let heightConstraint = NSLayoutConstraint(
-                item: view!,
-                attribute: .height,
-                relatedBy: .equal,
-                toItem: nil,
-                attribute: .notAnAttribute,
-                multiplier: 1,
-                constant: 320
-            )
-            heightConstraint.priority = .required
-            view.addConstraint(heightConstraint)
-        }
-    }
-
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         rootView.reload()
