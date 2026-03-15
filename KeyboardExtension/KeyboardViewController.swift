@@ -25,7 +25,7 @@ final class KeyboardViewController: UIInputViewController {
                     proxy.deleteBackward()
                 }
             },
-            nextKeyboard: { [weak self] view, event in
+            nextKeyboard: { [weak self] (view: UIView, event: UIEvent?) in
                 self?.handleInputModeList(from: view, with: event)
             }
         )
