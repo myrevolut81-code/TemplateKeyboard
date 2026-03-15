@@ -25,8 +25,8 @@ final class KeyboardViewController: UIInputViewController {
                     proxy.deleteBackward()
                 }
             },
-            nextKeyboard: { [weak self] in
-                self?.advanceToNextInputMode()
+            nextKeyboard: { [weak self] view, event in
+                self?.handleInputModeList(from: view, with: event)
             }
         )
 
@@ -39,14 +39,27 @@ final class KeyboardViewController: UIInputViewController {
             rootView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
 
-        let heightConstraint = view.heightAnchor.constraint(equalToConstant: 320)
-        heightConstraint.priority = .required
-        heightConstraint.isActive = true
+    }
+
+    override func updateViewConstraints() {
+        super.updateViewConstraints()
+        if !view.constraints.contains(where: { $0.firstAttribute == .height && $0.constant == 320 }) {
+            let heightConstraint = NSLayoutConstraint(
+                item: view!,
+                attribute: .height,
+                relatedBy: .equal,
+                toItem: nil,
+                attribute: .notAnAttribute,
+                multiplier: 1,
+                constant: 320
+            )
+            heightConstraint.priority = .required
+            view.addConstraint(heightConstraint)
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        TemplateStore.shared.load()
         rootView.reload()
     }
 

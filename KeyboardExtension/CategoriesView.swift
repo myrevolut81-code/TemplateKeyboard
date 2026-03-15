@@ -6,7 +6,7 @@ final class CategoriesView: UIView {
 
     private let onBack:           () -> Void
     private let onSelectCategory: (TemplateCategory) -> Void
-    private let nextKeyboard:     () -> Void
+    private let nextKeyboard:     (UIView, UIEvent?) -> Void
 
     // MARK: - UI
 
@@ -21,7 +21,7 @@ final class CategoriesView: UIView {
         categories: [TemplateCategory],
         onBack: @escaping () -> Void,
         onSelectCategory: @escaping (TemplateCategory) -> Void,
-        nextKeyboard: @escaping () -> Void
+        nextKeyboard: @escaping (UIView, UIEvent?) -> Void
     ) {
         self.onBack           = onBack
         self.onSelectCategory = onSelectCategory
@@ -83,7 +83,7 @@ final class CategoriesView: UIView {
         let globeBtn = UIButton(type: .system)
         globeBtn.setImage(UIImage(systemName: "globe"), for: .normal)
         globeBtn.tintColor = .secondaryLabel
-        globeBtn.addTarget(self, action: #selector(globeTapped), for: .touchUpInside)
+        globeBtn.addTarget(self, action: #selector(globeTapped(_:for:)), for: .touchUpInside)
         globeBtn.translatesAutoresizingMaskIntoConstraints = false
         toolbar.addSubview(globeBtn)
         NSLayoutConstraint.activate([
@@ -182,8 +182,8 @@ final class CategoriesView: UIView {
         onBack()
     }
 
-    @objc private func globeTapped() {
-        nextKeyboard()
+    @objc private func globeTapped(_ sender: UIButton, for event: UIEvent?) {
+        nextKeyboard(sender, event)
     }
 
     @objc private func categoryTapped(_ sender: UIButton) {

@@ -7,7 +7,7 @@ final class TemplatesView: UIView {
     private let insertText:     (String) -> Void
     private let deleteBackward: () -> Void
     private let clearAll:       () -> Void
-    private let nextKeyboard:   () -> Void
+    private let nextKeyboard:   (UIView, UIEvent?) -> Void
     private let onBack:         () -> Void
 
     // MARK: - State
@@ -34,7 +34,7 @@ final class TemplatesView: UIView {
         insertText: @escaping (String) -> Void,
         deleteBackward: @escaping () -> Void,
         clearAll: @escaping () -> Void,
-        nextKeyboard: @escaping () -> Void,
+        nextKeyboard: @escaping (UIView, UIEvent?) -> Void,
         onBack: @escaping () -> Void
     ) {
         self.screenTitle    = title
@@ -117,7 +117,7 @@ final class TemplatesView: UIView {
 
         // 🌐 Next keyboard
         let globeBtn = makeIconButton(systemName: "globe")
-        globeBtn.addTarget(self, action: #selector(globeTapped), for: .touchUpInside)
+        globeBtn.addTarget(self, action: #selector(globeTapped(_:for:)), for: .touchUpInside)
 
         let rightStack = UIStackView(arrangedSubviews: [deleteBtn, clearBtn, globeBtn])
         rightStack.axis    = .horizontal
@@ -290,7 +290,7 @@ final class TemplatesView: UIView {
         clearAll()
     }
 
-    @objc private func globeTapped() {
-        nextKeyboard()
+    @objc private func globeTapped(_ sender: UIButton, for event: UIEvent?) {
+        nextKeyboard(sender, event)
     }
 }

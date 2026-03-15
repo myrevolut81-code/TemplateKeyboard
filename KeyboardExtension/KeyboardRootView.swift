@@ -7,7 +7,7 @@ final class KeyboardRootView: UIView {
     let insertText:    (String) -> Void
     let deleteBackward: () -> Void
     let clearAll:       () -> Void
-    let nextKeyboard:   () -> Void
+    let nextKeyboard:   (UIView, UIEvent?) -> Void
 
     // MARK: - Sub-screens
 
@@ -21,7 +21,7 @@ final class KeyboardRootView: UIView {
         insertText: @escaping (String) -> Void,
         deleteBackward: @escaping () -> Void,
         clearAll: @escaping () -> Void,
-        nextKeyboard: @escaping () -> Void
+        nextKeyboard: @escaping (UIView, UIEvent?) -> Void
     ) {
         self.insertText     = insertText
         self.deleteBackward = deleteBackward
@@ -62,7 +62,7 @@ final class KeyboardRootView: UIView {
 
         // Globe button — top right
         let globeBtn = makeToolbarButton(image: "globe")
-        globeBtn.addTarget(self, action: #selector(globeTapped), for: .touchUpInside)
+        globeBtn.addTarget(self, action: #selector(globeTapped(_:for:)), for: .touchUpInside)
         container.addSubview(globeBtn)
         globeBtn.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -234,8 +234,8 @@ final class KeyboardRootView: UIView {
 
     // MARK: - Actions
 
-    @objc private func globeTapped() {
-        nextKeyboard()
+    @objc private func globeTapped(_ sender: UIButton, for event: UIEvent?) {
+        nextKeyboard(sender, event)
     }
 
     // MARK: - Helpers
